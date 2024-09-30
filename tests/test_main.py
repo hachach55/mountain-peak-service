@@ -1,8 +1,8 @@
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 from app.main import app
-from app.database import Base, get_db
+from app.database import Base, get_db   
 
 # Use in-memory SQLite database for testing
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
@@ -92,6 +92,12 @@ def test_delete_peak():
     assert get_response.status_code == 404
 
 def test_search_peaks():
+
+    db = TestingSessionLocal()
+    db.query(Base.metadata.tables['peaks']).delete()
+    db.commit()
+    db.close()
+
     # Create some peaks
     client.post("/peaks/", json={"name": "Cho Oyu", "latitude": 28.0942, "longitude": 86.6608, "altitude": 8188})
     client.post("/peaks/", json={"name": "Dhaulagiri", "latitude": 28.6975, "longitude": 83.4872, "altitude": 8167})
@@ -100,6 +106,7 @@ def test_search_peaks():
         "/peaks/search/",
         json={"min_lat": 28, "max_lat": 29, "min_lon": 86, "max_lon": 87}
     )
+    
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 1

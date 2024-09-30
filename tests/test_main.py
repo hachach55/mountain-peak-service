@@ -58,7 +58,7 @@ def test_read_peak():
     response = client.get(f"/peaks/{peak_id}")
     assert response.status_code == 200
     data = response.json()
-    assert data["name"] == "Kangchenjunga"
+    assert data["name"] == "Mont Blanc"
 
 def test_update_peak():
     # First, create a peak

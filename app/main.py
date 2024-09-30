@@ -1,13 +1,45 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
+from fastapi.responses import HTMLResponse
 from typing import List
 
 from . import models, schemas
 from .database import engine, get_db
 
+import os
+from dotenv import load_dotenv
+
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Mountain Peak Service")
+app = FastAPI(title="Mountain Peak Service",
+              description="an API for storing and retrieving mountain peaks information",
+              version="1.0.0",
+              openapi_tags=[{
+                  "name": "peaks",
+                  "description": "Operations with mountain peaks"
+              }])
+
+load_dotenv()
+# SECRET_KEY = os.getenv("SECRET_KEY")
+
+@app.get('/', response_class=HTMLResponse)
+async def root():
+        html_content = f"""
+    <html>
+        <head>
+            <title>Mountain Peak API</title>
+        </head>
+        <body>
+            <h1>Welcome to the Mountain Peak API</h1>
+            <p>This API provides information about mountain peaks.</p>
+            <p>To access the API documentation, please visit:</p>
+            <ul>
+                <li><a href="/docs">Swagger UI</a></li>
+            </ul>
+        </body>
+    </html>
+    """
+        return HTMLResponse(content=html_content, status_code=200)
 
 @app.post("/peaks/", response_model=schemas.Peak)
 def create_peak(peak: schemas.PeakCreate, db: Session = Depends(get_db)):

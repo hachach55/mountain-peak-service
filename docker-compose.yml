@@ -7,3 +7,5 @@ services:
       - .:/app
     environment:
       - DATABASE_URL=sqlite:///./app.dbw
+    env_file:
+      - .env

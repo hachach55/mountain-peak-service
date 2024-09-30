@@ -4,3 +4,4 @@ __pycache__/
 .coverage
 sql_app.db
 test.db
+.env

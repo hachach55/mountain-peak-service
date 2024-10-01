@@ -22,7 +22,7 @@ This project provides a simple web service for storing and retrieving mountain p
 ### Clone the repository
 ```bash
 git clone https://github.com/hachach55/mountain-peak-service.git
-cd mountain-peak-api
+cd mountain-peak-service
 ```
 ### Environment Variables
 Create a ```.env```file in the project root and the following variables

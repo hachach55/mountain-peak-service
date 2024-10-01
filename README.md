@@ -21,7 +21,7 @@ This project provides a simple web service for storing and retrieving mountain p
 
 ### Clone the repository
 ```bash
-git clone https://github.com/your-username/mountain-peak-api.git
+git clone https://github.com/hachach55/mountain-peak-service.git
 cd mountain-peak-api
 ```
 ### Environment Variables
